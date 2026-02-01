@@ -1,0 +1,16 @@
+tg-bot:
+  name: your bot name
+  token: your token
+
+quarkus:
+  datasource:
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/postgres
+
+    password: "your password"
+    username: "your username"
+
+  hibernate-orm:
+    database:
+      scripts:
+        generation: none
