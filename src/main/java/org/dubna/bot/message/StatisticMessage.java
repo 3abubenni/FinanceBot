@@ -115,26 +115,19 @@ public class StatisticMessage extends SendMessage {
 
         List<InlineKeyboardButton> periodButtons = new ArrayList<>();
         if (period != StatisticPeriod.DAY) {
-            periodButtons.add(createPeriodButton(StatisticPeriod.DAY, "День"));
+            periodButtons.add(StatisticPeriod.DAY_BTN);
         }
 
         if (period != StatisticPeriod.WEEK) {
-            periodButtons.add(createPeriodButton(StatisticPeriod.WEEK, "Неделя"));
+            periodButtons.add(StatisticPeriod.WEEK_BTN);
         }
 
         if (period != StatisticPeriod.MONTH) {
-            periodButtons.add(createPeriodButton(StatisticPeriod.MONTH, "Месяц"));
+            periodButtons.add(StatisticPeriod.MONTH_BTN);
         }
+
         rows.add(periodButtons);
-
         return new InlineKeyboardMarkup(rows);
-    }
-
-    private InlineKeyboardButton createPeriodButton(StatisticPeriod period, String text) {
-        InlineKeyboardButton btn = new InlineKeyboardButton();
-        btn.setText(text);
-        btn.setCallbackData(new ChangePeriodStatisticCallback(period).toJson());
-        return btn;
     }
 
     private InlineKeyboardButton createOffsetButton(int offset,

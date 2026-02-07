@@ -2,6 +2,9 @@ package org.dubna.bot.callback.enums;
 
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import org.dubna.bot.callback.Callback;
+import org.dubna.bot.callback.impl.ChangePeriodStatisticCallback;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -28,6 +31,10 @@ public enum StatisticPeriod {
             offset -> LocalDate.now().plusMonths(offset).with(TemporalAdjusters.lastDayOfMonth())
     );
 
+    public static final InlineKeyboardButton DAY_BTN = createPeriodButton(DAY, "День");
+    public static final InlineKeyboardButton WEEK_BTN = createPeriodButton(WEEK, "День");
+    public static final InlineKeyboardButton MONTH_BTN = createPeriodButton(MONTH, "Месяц");
+
     @JsonValue
     private final int value;
     private final Function<Integer, LocalDate> getStart;
@@ -53,6 +60,14 @@ public enum StatisticPeriod {
      */
     public LocalDate getEnd(int offset) {
         return getEnd.apply(offset);
+    }
+
+    private static InlineKeyboardButton createPeriodButton(StatisticPeriod period, String text) {
+        InlineKeyboardButton btn = new InlineKeyboardButton();
+        btn.setText(text);
+        Callback callback = new ChangePeriodStatisticCallback(period);
+        btn.setCallbackData(callback.toJson());
+        return btn;
     }
 
 }
