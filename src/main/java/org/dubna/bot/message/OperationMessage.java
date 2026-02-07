@@ -9,6 +9,7 @@ import org.dubna.category.Category;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.ArrayList;
@@ -64,20 +65,12 @@ public class OperationMessage extends SendMessage {
 
     public EditMessageText editMessage(Integer messageId) {
         EditMessageText editMessage = new EditMessageText();
-
         editMessage.setChatId(this.getChatId());
         editMessage.setMessageId(messageId);
         editMessage.setText(this.getText());
         editMessage.enableMarkdown(true);
-
-        if (this.getReplyMarkup() != null && categories != null) {
-            editMessage.setReplyMarkup(categoriesButtons(categories, operation));
-        }
-
-        if (hasChangeCategoryBtn) {
-            editMessage.setReplyMarkup(changeCategoryButton());
-        }
-
+        InlineKeyboardMarkup keyboardMarkup = (InlineKeyboardMarkup) this.getReplyMarkup();
+        editMessage.setReplyMarkup(keyboardMarkup);
         return editMessage;
     }
 

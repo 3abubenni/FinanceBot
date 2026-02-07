@@ -20,36 +20,32 @@ import java.time.LocalDate;
 
 @Slf4j
 @NoArgsConstructor
-public class ChangeStatisticOffsetCallback extends Callback {
-
-    @JsonProperty("o")
-    private int offset;
+public class ChangePeriodStatisticCallback extends Callback {
 
     @JsonProperty("p")
     private StatisticPeriod period;
 
-    public ChangeStatisticOffsetCallback(final int offset, StatisticPeriod period) {
-        super(CallbackType.CHANGE_STATISTIC_OFFSET);
-        this.offset = offset;
+    public ChangePeriodStatisticCallback(StatisticPeriod period) {
+        super(CallbackType.CHANGE_STATISTIC_PERIOD);
         this.period = period;
     }
 
     @Override
     @SneakyThrows
     public void execute(CallbackQuery query, DefaultAbsSender sender) {
-        log.info("Try to get statistic for period '{}' by offset '{}'", period, offset);
+        log.info("Change period to '{}'", period);
+        final int offset = 0;
         LocalDate start = period.getStart(offset);
         LocalDate end = period.getEnd(offset);
         UserEntity user = UserContextHolder.getOrThrow();
-        OperationsStatistic statistic = StatisticRepository.getInstance().getAnalyze(user.getId(), start, end);
         Integer messageId = query.getMessage().getMessageId();
+        OperationsStatistic statistic = StatisticRepository.getInstance().getAnalyze(user.getId(), start, end);
         EditMessageText message = new StatisticMessage(
                 query.getMessage().getChatId(),
                 statistic,
                 offset,
                 period
         ).editMessage(messageId);
-
         sender.execute(message);
     }
 

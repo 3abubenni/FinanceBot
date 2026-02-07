@@ -1,14 +1,30 @@
 package org.dubna.budget.statistic;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.runtime.Startup;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.dubna.budget.Operation;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
+@Startup
 @ApplicationScoped
 public class StatisticRepository implements PanacheRepository<Operation> {
+
+    private static StatisticRepository INSTANCE;
+
+    @PostConstruct
+    public void init() {
+        INSTANCE = this;
+    }
+
+    public static StatisticRepository getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * Get Analyze of Operations for period.
