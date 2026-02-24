@@ -32,7 +32,7 @@ public enum StatisticPeriod {
     );
 
     public static final InlineKeyboardButton DAY_BTN = createPeriodButton(DAY, "День");
-    public static final InlineKeyboardButton WEEK_BTN = createPeriodButton(WEEK, "День");
+    public static final InlineKeyboardButton WEEK_BTN = createPeriodButton(WEEK, "Неделя");
     public static final InlineKeyboardButton MONTH_BTN = createPeriodButton(MONTH, "Месяц");
 
     @JsonValue
